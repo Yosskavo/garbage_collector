@@ -1,42 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_global.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-mota <yel-mota@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 08:46:58 by yel-mota          #+#    #+#             */
-/*   Updated: 2025/08/05 09:30:45 by yel-mota         ###   ########.fr       */
+/*   Created: 2025/08/05 08:03:36 by yel-mota          #+#    #+#             */
+/*   Updated: 2025/08/05 09:35:52 by yel-mota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malloc.h"
 
-void	ft_free(void *ptr, int flag)
+t_list	*ft_global(t_list *new, int flag)
 {
-	t_list	*head;
-	t_list	*tmp;
+	static t_list	*head;
+	static t_list	*env;
 
-	head = ft_global(NULL, flag);
-	if (!head)
-		return ;
-	tmp = head->next;
-	if (head->content == ptr)
-	{
-		ft_global(tmp, flag);
-		free(head->content);
-		free(head);
-		return ;
-	}
-	while (tmp)
-	{
-		if (tmp->content == ptr)
-		{
-			head->next = tmp->next;
-			free(tmp->content);
-			free(tmp);
-		}
-		head = tmp;
-		tmp = tmp->next;
-	}
+	if ((new || !(flag - 2)) && (!flag || !(flag - 2)))
+		head = new;
+	if ((flag == 1 || flag - 2 == 1) && (new || flag - 2 == 1))
+		env = new;
+	if (!flag)
+		return (head);
+	return (env);
 }

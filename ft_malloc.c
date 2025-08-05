@@ -1,38 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yel-mota <yel-mota@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 08:03:24 by yel-mota          #+#    #+#             */
+/*   Updated: 2025/08/05 09:40:51 by yel-mota         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_malloc.h"
 
-void ft_malloc_error(void)
+void	*ft_malloc(size_t size, int flag)
 {
-	perror("minishell");
-	ft_clean_up();
-	exit(1);
-}
-
-t_list *ft_global(t_list *ptr, int flag)
-{
-	static t_list *env;
-	static t_list *some;
-
-	if (ptr && flag == RANDOM_LIST)
-		some = head;
-	else
-		env = head;
-	if (RANDOM_LIST == flag)
-		return (some);
-	return (env);
-}
-
-void *ft_malloc(t_size size, int flag)
-{
-	void *ptr;
-	t_list *head;
+	void	*ptr;
+	t_list	*lst;
 
 	ptr = malloc(size);
 	if (!ptr)
-		return (ft_malloc_error());
-	head = ft_global(NULL, flag);
-	if (!ft_add_list_back(&head, ft_lstnew(ptr)))
-		return (ft_malloc_error());
-	ft_global(NULL, flag);
+		ft_clean_and_exit();
+	lst = ft_global(NULL, flag);
+	if (!ft_lstadd_back(&lst, ft_lstnew(ptr)))
+		return (free(ptr), ft_clean_and_exit(), NULL);
+	ft_global(lst, flag);
 	return (ptr);
 }
-
