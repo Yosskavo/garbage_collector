@@ -1,6 +1,6 @@
-NAME = malloc
+NAME = ft_malloc.a
 
-SRC = ft_malloc.c ft_lst.c ft_clear.c ft_global.c main.c ft_free.c
+SRC = ft_malloc.c ft_lst.c ft_clear.c ft_global.c 
 
 OBJ = $(SRC:.c=.o)
 
@@ -10,13 +10,13 @@ all : $(NAME)
 	cc -Wall -Wextra -Werror -c $< -o $@
 
 $(NAME) : $(OBJ)
-	cc -Wall -Wextra -Werror $(OBJ) -o $(NAME)
+	@ar rcs $(NAME) $(OBJ)
 
-clean : 
-	@rm -rv $(OBJ)
+clean :
+	@rm -fv $(OBJ)
 
 fclean : clean
-	@rm -rv $(NAME)
+	@rm -fv $(NAME)
 
 re : fclean all
 
